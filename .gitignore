@@ -1,0 +1,5 @@
+/build/
+*.s
+*.o
+test
+hello_world
