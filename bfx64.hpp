@@ -129,8 +129,11 @@ namespace bfx64
 		{
 			m_stream
 				<< "    push  %rdi"               << '\n'
-				<< "    movzb (%rdi), %rdi"       << '\n'
-				<< "    call  putchar"            << '\n'
+				<< "    mov   %rdi,     %rsi"     << '\n' // buffer
+				<< "    mov   $1,       %rdx"     << '\n' // count
+				<< "    mov   $1,       %rdi"     << '\n' // file descriptor
+				<< "    mov   $1,       %rax"     << '\n' // sys_write
+				<< "    syscall"                  << '\n'
 				<< "    pop   %rdi"               << '\n';
 		}
 
