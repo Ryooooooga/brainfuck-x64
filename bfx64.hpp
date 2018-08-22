@@ -129,10 +129,22 @@ namespace bfx64
 		{
 			m_stream
 				<< "    push  %rdi"               << '\n'
-				<< "    mov   %rdi,     %rsi"     << '\n' // buffer
 				<< "    mov   $1,       %rdx"     << '\n' // count
+				<< "    mov   %rdi,     %rsi"     << '\n' // buffer
 				<< "    mov   $1,       %rdi"     << '\n' // file descriptor
 				<< "    mov   $1,       %rax"     << '\n' // sys_write
+				<< "    syscall"                  << '\n'
+				<< "    pop   %rdi"               << '\n';
+		}
+
+		void emit_read()
+		{
+			m_stream
+				<< "    push  %rdi"               << '\n'
+				<< "    mov   $1,       %rdx"     << '\n' // count
+				<< "    mov   %rdi,     %rsi"     << '\n' // buffer
+				<< "    mov   $0,       %rdi"     << '\n' // file descriptor
+				<< "    mov   $0,       %rax"     << '\n' // sys_read
 				<< "    syscall"                  << '\n'
 				<< "    pop   %rdi"               << '\n';
 		}
@@ -198,6 +210,10 @@ namespace bfx64
 
 				case '.':
 					gen.emit_write();
+					break;
+
+				case ',':
+					gen.emit_read();
 					break;
 
 				default:
