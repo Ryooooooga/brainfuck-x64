@@ -58,7 +58,7 @@ namespace bfx64
 		void finish()
 		{
 			m_stream
-				<< "    movzb (%rdi),   %rax"       << '\n'
+				<< "    mov   $0,       %rax"       << '\n'
 				<< "    mov   %rbp,     %rsp"       << '\n'
 				<< "    pop   %rbp"                 << '\n'
 				<< "    ret"                        << '\n';
@@ -125,6 +125,15 @@ namespace bfx64
 				<< ".L" << loop.end << ":"        << '\n';
 		}
 
+		void emit_write()
+		{
+			m_stream
+				<< "    push  %rdi"               << '\n'
+				<< "    movzb (%rdi), %rdi"       << '\n'
+				<< "    call  putchar"            << '\n'
+				<< "    pop   %rdi"               << '\n';
+		}
+
 		// Uncopyable, unmovable.
 		AssemblyGenerator(const AssemblyGenerator&) =delete;
 		AssemblyGenerator(AssemblyGenerator&&) =delete;
@@ -182,6 +191,10 @@ namespace bfx64
 
 				case ']':
 					gen.emit_loop_end();
+					break;
+
+				case '.':
+					gen.emit_write();
 					break;
 
 				default:
