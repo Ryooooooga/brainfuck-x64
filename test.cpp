@@ -32,7 +32,9 @@ int main()
 	{
 		const std::string_view hello_world = "+++++++++[>++++++++>+++++++++++>+++++<<<-]>.>++.+++++++..+++.>-------------.<<+++++++++++++++.>.+++.------.--------.>+..";
 
-		bfx64::compile<bfx64::BinaryGenerator>(hello_world)();
+		// bfx64::compile<bfx64::BinaryGenerator>(hello_world)();
+
+		std::cout << bfx64::compile<bfx64::AssemblyGenerator>(hello_world);
 	}
 	catch (const std::exception& e)
 	{
